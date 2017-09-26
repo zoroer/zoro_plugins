@@ -1,0 +1,140 @@
+/* helper css */
+.iconPlus{
+    height: 2.8rem;
+    width: 2.8rem;
+    background: #5FC3AC;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+}
+.iconPlus::after, .iconPlus::before{
+    content: "";
+    position: absolute;
+    background: #fff;
+    border-radius: 5px;
+}
+.iconPlus::after{
+    left: .65rem;
+    top: 1.2rem;
+    height: .4rem;
+    width: 1.5rem;
+}
+.iconPlus::before{
+    left: 1.2rem;
+    top: .7rem;
+    width: .4rem;
+    height: 1.5rem;
+}
+
+/* imgWrap最外层div */
+.idFiles{
+    position: relative;
+    width: 40%;
+    max-width: 250px;
+    height: 10rem;
+    overflow: hidden;
+    background: #F9F9F9;
+    border: 2px dotted #D6D6D6;
+    margin: 2rem auto .5rem;
+    border-radius: 5%;
+}
+
+/* input 选择文件 */
+#idWhiteImg{
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    width: 100%;
+    height:100%;
+}
+#idWhiteImg.active{
+    z-index: 999;
+}
+
+/* img 展示文字 */
+.imgMesBlock{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.imgMesBlock.active{opacity: 0;}
+.imgMesBlock i{
+    color:#5FC3AC;
+    font-size: 3.2rem;
+    margin-top: .5rem;
+}
+.imgMesBlock p{
+    font-size: .9rem;
+    margin: 10px 0;
+    color: #A4A4A4;
+    width: 50%;
+    text-align: center;
+}
+
+/* 回显img */
+.imgBlockWrap{
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+    width: 100%;
+    height: 100%;
+}
+.imgBlockWrap.active{ display: flex; }
+.imgActiveHeight{ max-height: 100%; }
+.imgActiveWidth{ max-width: 100%; }
+
+/* 全屏展示图片 css*/
+.imgShowWrap{
+    position: fixed;
+    width: 100%;
+    height:100%;
+    background: rgba(0,0,0,.4);
+    top: 0;
+    display: none;
+}
+.imgShowWrap.active{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.showFullScreenImg{
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 5px;
+}
+.imgExchange{
+    display: none;
+    top: 1px;
+    right: 1px;
+    margin-top: 0;
+    height: 1.5rem;
+    width: 1.5rem;
+    background: rgba(255, 0, 0, .6);
+    border-radius: 50%;
+    cursor: pointer;
+    position: absolute;
+    transition: all .3s ease-in-out;
+}
+.imgExchange:hover{
+    transform: rotate(360deg);
+    background: rgba(255, 0, 0, .8);
+}
+.imgExchange::before, .imgExchange::after{
+    background: #fff;
+    content: "";
+    position: absolute;
+    border-radius: 5px;
+    left: .25rem;
+    top: .6rem;
+    height: .2rem;
+    width: 1rem;
+}
+.imgExchange::after{ transform: rotate(45deg); }
+.imgExchange::before { transform: rotate(135deg); }

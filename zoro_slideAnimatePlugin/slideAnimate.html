@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>slideAnimate</title>
+    <style type="text/css">
+        *, body{
+            margin: 0;
+            padding: 0;
+        }
+        ul li{list-style-type: none;}
+        .slideAnimate{
+            height: 400px;
+            position: relative;
+            overflow: hidden;
+        }
+        .slideAnimate ul{
+            height: 100%;
+            width: 100%;
+            box-shadow: 0 10px 5px #eee;
+            position: absolute;
+            overflow: hidden;
+            left:0;
+        }
+        .slideAnimate ul li{
+            height: 100%;
+            float: left;
+        }
+        .slideImgCommon{
+            display: block;
+            height: 100%;
+            width: 100%;
+            background-size: cover !important;
+        }
+        .slideImg1{ background: url("./img/img1.jpg") center no-repeat; }
+        .slideImg2{ background: url("./img/img2.jpg") center no-repeat; }
+        .slideImg3{ background: url("./img/img3.jpg") center no-repeat; }
+        .slideImg4{ background: url("./img/img4.jpg") center no-repeat; }
+        .slideImg5{ background: url("./img/img5.jpg") center no-repeat; }
+    </style>
+</head>
+<body>
+
+<div class="slideAnimate">
+    <ul>
+        <li class="slideList"><i class="slideImgCommon slideImg1"></i></li>
+        <li class="slideList"><i class="slideImgCommon slideImg2"></i></li>
+        <li class="slideList"><i class="slideImgCommon slideImg3"></i></li>
+        <li class="slideList"><i class="slideImgCommon slideImg4"></i></li>
+        <li class="slideList"><i class="slideImgCommon slideImg5"></i></li>
+    </ul>
+</div>
+
+<script type="text/javascript" src="jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        /**
+         * 调用的选项
+         */
+        slideAnimate({
+            wrapName: '.slideAnimate',
+            direction: "left",
+            speed: 2
+        });
+
+        function slideAnimate(condition){
+            //复制html节点
+            var slideWrap = $(condition.wrapName).find("ul");
+            var list = slideWrap.find("li");
+            var length = list.length;
+            list.css("width", slideWrap.width()/length + 'px');  //按照原始的wrap宽度给list的赋值
+            slideWrap.append( slideWrap.html() );
+
+            //重新计算wrap的长度
+            var width = list.width();
+            length = slideWrap.find("li").length;p
+            slideWrap.css("width", width * length + "px");
+
+            /**
+             * 处理滑动动画
+             */
+            function handleAnimate(){
+                var leftNumber = parseInt( slideWrap.css("left").replace(/[^0-9\-]/gi,"") );
+                leftNumber === -length / 2 * width
+                    ? slideWrap.css("left", "0px")
+                    : slideWrap.css("left", leftNumber-condition.speed + "px");
+            }
+
+            //定时更新
+            setInterval(handleAnimate, 20);
+        }
+    });
+</script>
+</body>
+</html>

@@ -51,8 +51,7 @@
          */
         slideAnimate({
             wrapName: '.slideAnimate',
-            direction: "right",
-            animateSpeed: -2
+            animateSpeed: 2  //speed 大于0想有滑动，小于0向左滑动
         });
 
         /**
@@ -63,21 +62,28 @@
         function slideAnimate(condition){
             //复制html节点
             var oUl = $(condition.wrapName).find("ul");
-            oUl.prepend( oUl.html() );
+            oUl.append( oUl.html() );
 
             //重新计算wrap的长度
             var oLi = oUl.find("li");
             oLi.css("width", oUl.width() / (oLi.length/2) );
             oUl.css("width", oLi.width() * oLi.length + "px");
+            condition.animateSpeed > 0 && oUl.css("left", -oUl.width()/2 + "px");
 
             /**
              * 处理滑动动画
              */
             function handleAnimate(){
                 var leftNumber = parseInt( oUl.css("left").replace(/[^0-9]/gi,"") );
-                leftNumber === oLi.width() * (oLi.length/2)
-                    ? oUl.css("left", "0px")
-                    : oUl.css("left", "+=" + condition.animateSpeed + "px");
+                if(condition.animateSpeed > 0){
+                    leftNumber === 0
+                        ? oUl.css("left",  -oUl.width()/2 + "px")
+                        : oUl.css("left", "+=" + condition.animateSpeed + "px");
+                }else {
+                    leftNumber === oLi.width() * (oLi.length / 2)
+                        ? oUl.css("left", "0px")
+                        : oUl.css("left", "+=" + condition.animateSpeed + "px");
+                }
             }
 
             //定时更新

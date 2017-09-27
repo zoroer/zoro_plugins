@@ -13,11 +13,11 @@
             height: 400px;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 10px 5px #eee;
         }
         .slideAnimate ul{
             height: 100%;
             width: 100%;
-            box-shadow: 0 10px 5px #eee;
             position: absolute;
             overflow: hidden;
             left:0;
@@ -25,29 +25,21 @@
         .slideAnimate ul li{
             height: 100%;
             float: left;
+            display: flex;
+            align-items: center;
         }
-        .slideImgCommon{
-            display: block;
-            height: 100%;
-            width: 100%;
-            background-size: cover !important;
-        }
-        .slideImg1{ background: url("./img/img1.jpg") center no-repeat; }
-        .slideImg2{ background: url("./img/img2.jpg") center no-repeat; }
-        .slideImg3{ background: url("./img/img3.jpg") center no-repeat; }
-        .slideImg4{ background: url("./img/img4.jpg") center no-repeat; }
-        .slideImg5{ background: url("./img/img5.jpg") center no-repeat; }
+        .slideAnimate ul li img{ width: 100%; }
     </style>
 </head>
 <body>
 
 <div class="slideAnimate">
     <ul>
-        <li class="slideList"><i class="slideImgCommon slideImg1"></i></li>
-        <li class="slideList"><i class="slideImgCommon slideImg2"></i></li>
-        <li class="slideList"><i class="slideImgCommon slideImg3"></i></li>
-        <li class="slideList"><i class="slideImgCommon slideImg4"></i></li>
-        <li class="slideList"><i class="slideImgCommon slideImg5"></i></li>
+        <li><img src="./img/img1.jpg" /></li>
+        <li><img src="./img/img2.jpg" /></li>
+        <li><img src="./img/img3.jpg" /></li>
+        <li><img src="./img/img4.jpg" /></li>
+        <li><img src="./img/img5.jpg" /></li>
     </ul>
 </div>
 
@@ -59,31 +51,33 @@
          */
         slideAnimate({
             wrapName: '.slideAnimate',
-            direction: "left",
-            speed: 2
+            direction: "right",
+            animateSpeed: -2
         });
 
+        /**
+         * 动画函数
+         * @param condition 动画函数的配置对象{}
+         * 包含三个参数wrapName，direction，animateSpeed
+         */
         function slideAnimate(condition){
             //复制html节点
-            var slideWrap = $(condition.wrapName).find("ul");
-            var list = slideWrap.find("li");
-            var length = list.length;
-            list.css("width", slideWrap.width()/length + 'px');  //按照原始的wrap宽度给list的赋值
-            slideWrap.append( slideWrap.html() );
+            var oUl = $(condition.wrapName).find("ul");
+            oUl.prepend( oUl.html() );
 
             //重新计算wrap的长度
-            var width = list.width();
-            length = slideWrap.find("li").length;p
-            slideWrap.css("width", width * length + "px");
+            var oLi = oUl.find("li");
+            oLi.css("width", oUl.width() / (oLi.length/2) );
+            oUl.css("width", oLi.width() * oLi.length + "px");
 
             /**
              * 处理滑动动画
              */
             function handleAnimate(){
-                var leftNumber = parseInt( slideWrap.css("left").replace(/[^0-9\-]/gi,"") );
-                leftNumber === -length / 2 * width
-                    ? slideWrap.css("left", "0px")
-                    : slideWrap.css("left", leftNumber-condition.speed + "px");
+                var leftNumber = parseInt( oUl.css("left").replace(/[^0-9]/gi,"") );
+                leftNumber === oLi.width() * (oLi.length/2)
+                    ? oUl.css("left", "0px")
+                    : oUl.css("left", "+=" + condition.animateSpeed + "px");
             }
 
             //定时更新

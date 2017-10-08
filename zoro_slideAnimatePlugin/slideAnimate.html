@@ -4,13 +4,10 @@
     <meta charset="UTF-8">
     <title>slideAnimate</title>
     <style type="text/css">
-        *, body{
-            margin: 0;
-            padding: 0;
-        }
+        *, body{  margin: 0;  padding: 0; }
         ul li{list-style-type: none;}
         .slideAnimate{
-            height: 400px;
+            height: 400px;   /*根据自己的需要进行修改样式*/
             position: relative;
             overflow: hidden;
             box-shadow: 0 10px 5px #eee;
@@ -21,14 +18,13 @@
             position: absolute;
             overflow: hidden;
             left:0;
+            top:0;
         }
         .slideAnimate ul li{
-            height: 100%;
-            float: left;
             display: flex;
             align-items: center;
+            justify-content: center;
         }
-        .slideAnimate ul li img{ width: 100%; }
     </style>
 </head>
 <body>
@@ -41,6 +37,15 @@
         <li><img src="./img/img4.jpg" /></li>
         <li><img src="./img/img5.jpg" /></li>
     </ul>
+
+    <!-- 文字演示的内容 -->
+    <!--<ul>-->
+        <!--<li><img src="./img/img1.jpg" /></li>-->
+        <!--<li><img src="./img/img2.jpg" /></li>-->
+        <!--<li><img src="./img/img3.jpg" /></li>-->
+        <!--<li><img src="./img/img4.jpg" /></li>-->
+        <!--<li><img src="./img/img5.jpg" /></li>-->
+    <!--</ul>-->
 </div>
 
 <script type="text/javascript" src="jquery-3.2.1.min.js"></script>
@@ -51,7 +56,13 @@
          */
         slideAnimate({
             wrapName: '.slideAnimate',
-            animateSpeed: 2  //speed 大于0想有滑动，小于0向左滑动
+            animateDirection: "left",
+            animateSpeed: -2,  //speed 大于0向右或下滑动，小于0向左或上滑动 (需要同时设置方向和速度参数!!!)
+            textMode: false,
+            textModeStyle: {
+                fontSize: '20px',
+                color: "#f00"
+            }
         });
 
         /**
@@ -60,29 +71,66 @@
          * 包含三个参数wrapName，direction，animateSpeed
          */
         function slideAnimate(condition){
-            //复制html节点
-            var oUl = $(condition.wrapName).find("ul");
-            oUl.append( oUl.html() );
+            var wrapName = condition.wrapName || '.slideAnimate';
+            var direction = /left|right|top|bottom/.test(condition.animateDirection) ? condition.animateDirection : 'left';
+            var animateSpeed = condition.animateSpeed || 2;
+            var textMode = condition.textMode || false;
+            var directionCssObj = {};
 
-            //重新计算wrap的长度
+            //复制html节点
+            var oUl = $(wrapName).find("ul");
+            oUl.append(oUl.html());
             var oLi = oUl.find("li");
-            oLi.css("width", oUl.width() / (oLi.length/2) );
-            oUl.css("width", oLi.width() * oLi.length + "px");
-            condition.animateSpeed > 0 && oUl.css("left", -oUl.width()/2 + "px");
+
+            //判断动画的方向
+            if( /left|right/.test(direction) ) {
+                directionCssObj.direction = 'left';
+                directionCssObj.directionProp = 'width';
+
+                //处理css部分属性
+                $(".slideAnimate").find("li").css({"float": "left", "height": "100%"}).find("img").css("width", "100%");
+
+                //重新计算li以及wrap的长度
+                oLi.css("width", oUl.width() / (oLi.length / 2) + "px");
+                oUl.css("width", oLi.width() * oLi.length + "px");
+            }else{
+                directionCssObj.direction = 'top';
+                directionCssObj.directionProp = 'height';
+
+                //判断是否是文字模式并处理对应的css部分属性
+                if(textMode){
+                    //赋值传入的文字css
+                    oLi.css(condition.textModeStyle);
+
+                }else {
+                    $(".slideAnimate").find("img").css("height", "100%");
+                    oLi.css("height", oUl.height() + "px");
+                }
+
+                //重新计算wrap的高度
+                oUl.css("height", oLi.height() * oLi.length + "px");
+            }
 
             /**
              * 处理滑动动画
              */
-            function handleAnimate(){
-                var leftNumber = parseInt( oUl.css("left").replace(/[^0-9]/gi,"") );
-                if(condition.animateSpeed > 0){
-                    leftNumber === 0
-                        ? oUl.css("left",  -oUl.width()/2 + "px")
-                        : oUl.css("left", "+=" + condition.animateSpeed + "px");
-                }else {
-                    leftNumber === oLi.width() * (oLi.length / 2)
-                        ? oUl.css("left", "0px")
-                        : oUl.css("left", "+=" + condition.animateSpeed + "px");
+            function handleAnimate() {
+                if(directionCssObj){
+                    var propNumber = parseInt(oUl.css(directionCssObj.direction).replace(/[^0-9]/gi, ""));
+
+                    if (animateSpeed > 0) {
+                        //大于0方向向下或者向右
+                        propNumber === 0
+                            ? oUl.css(directionCssObj.direction, -oUl[directionCssObj.directionProp]() / 2 + "px")
+                            : oUl.css(directionCssObj.direction, "+=" + animateSpeed + "px");
+                    } else {
+                        //小于0方向向上或者向左
+                        propNumber === oLi[directionCssObj.directionProp]() * (oLi.length / 2)
+                            ? oUl.css(directionCssObj.direction, "0px")
+                            : oUl.css(directionCssObj.direction, "+=" + animateSpeed + "px");
+                    }
+                }else{
+                    console.warn("directionCssObj不能为空!");
                 }
             }
 

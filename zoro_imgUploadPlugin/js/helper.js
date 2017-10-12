@@ -55,22 +55,29 @@ function imgObjHandle(configObj) {
             return;
         }
 
-        //fileReader读取文件并转换为base64
+        //fileReader读取文件
+        readFileToBase64(file, $(this));
+    });
+
+    /**
+     * fileReader读取文件并转换为base64
+     * @param file input表单读取的文件流
+     * @param $this input的dom对象
+     */
+    function readFileToBase64(file, $this){
         var reader = new FileReader();
         reader.onload = function(e) {
-            handleImg(e.target.result, $(this), isCompress, compressPercent);
+            handleImg(e.target.result, $this);
         }.bind(this);
         reader.readAsDataURL(file);
-    });
+    }
 
     /**
      * 根据图片和上传框的比较来处理图片
      * @param imgURL    img的base64
-     * @param $this     imgWrap的dom对象
-     * @param isCompress  是否压缩图片
-     * @param compressPercent  压缩比例 (0 - 1)
+     * @param $this     input的dom对象
      */
-    function handleImg(imgURL, $this, isCompress, compressPercent){
+    function handleImg(imgURL, $this){
         var image = new Image();
         image.onload=function(){
             var base64URL = imgURL;
@@ -94,16 +101,14 @@ function imgObjHandle(configObj) {
             //判断图片和imgWrap的大小关系来确定图片的显示
             var imgClass = getImgSize($this, image);
 
-            $this.attr("class", "").next("div").addClass("active")
-                .siblings("i").show().siblings(".imgBlockWrap").addClass("active")
-                .find("img").attr("src", base64URL).addClass(imgClass);
+            toggleComponentValues("add", $this, base64URL, imgClass);
         };
         image.src = imgURL;
     }
 
     /**
      * 确定图片显示的class
-     * @param inputObj imgWrap的dom对象
+     * @param inputObj input的dom对象
      * @param imgObj   压缩后的img对象
      * @returns {string}
      */
@@ -133,23 +138,32 @@ function imgObjHandle(configObj) {
 
     // 删除图片
     $(".imgExchange").on("click", function() {
-        clearInput();
+        toggleComponentValues("clear", $(".imgExchange"));
     });
 
     /**
-     * 还原input组件的值
+     * 切换组件的数据
+     * @param type  "add" or "clear" 切换的类型
+     * @param $this 上下文对象
+     * @param base64URl 增加时传入的base64URL
+     * @param imgClass  增加时传入计算后的imgClass
      */
-    function clearInput(){
-        var inputEle = $("#idWhiteImg")[0];
-        $(".imgExchange").hide().prev("div").removeClass("active").find("img").attr("src", "")
-            .parent().siblings("div").removeClass("active");
+    function toggleComponentValues(type, $this, base64URl, imgClass){
+        var imgStyle = imgClass || "imgActiveHeight";
+        if(type === "add"){
+            $this.attr("class", "").next("div").addClass("active")
+                .siblings("i").show().siblings(".imgBlockWrap").addClass("active")
+                .find("img").attr("src", base64URl).addClass(imgStyle);
+        }else {
+            $this.hide().prev("div").removeClass("active").find("img").attr("src", "")
+                .parent().siblings("div").removeClass("active");
 
-        //清理input file的文件（防止重复选择不会触发input的 change事件）
-        inputEle.outerHTML = inputEle.outerHTML;
+            //清理input file的文件（防止重复选择不会触发input的 change事件）
+            var inputEle = $("#idWhiteImg")[0];
+            inputEle.outerHTML = inputEle.outerHTML;
+        }
     }
-
 
     //todo
     //1. 换成对象的形式
-    //2. 修改清除和添加input的函数，尽量分离开逻辑
 }

@@ -65,8 +65,8 @@ function imgObjHandle(configObj) {
 
     /**
      * 根据图片和上传框的比较来处理图片
-     * @param imgURL
-     * @param $this
+     * @param imgURL    img的base64
+     * @param $this     imgWrap的dom对象
      * @param isCompress  是否压缩图片
      * @param compressPercent  压缩比例 (0 - 1)
      */
@@ -103,8 +103,8 @@ function imgObjHandle(configObj) {
 
     /**
      * 确定图片显示的class
-     * @param inputObj
-     * @param imgObj
+     * @param inputObj imgWrap的dom对象
+     * @param imgObj   压缩后的img对象
      * @returns {string}
      */
     function getImgSize(inputObj, imgObj) {
@@ -133,11 +133,23 @@ function imgObjHandle(configObj) {
 
     // 删除图片
     $(".imgExchange").on("click", function() {
-        var inputEle = $(this).siblings("input")[0];
-        $(this).hide().prev("div").removeClass("active").find("img").attr("src", "")
+        clearInput();
+    });
+
+    /**
+     * 还原input组件的值
+     */
+    function clearInput(){
+        var inputEle = $("#idWhiteImg")[0];
+        $(".imgExchange").hide().prev("div").removeClass("active").find("img").attr("src", "")
             .parent().siblings("div").removeClass("active");
 
         //清理input file的文件（防止重复选择不会触发input的 change事件）
         inputEle.outerHTML = inputEle.outerHTML;
-    });
+    }
+
+
+    //todo
+    //1. 换成对象的形式
+    //2. 修改清除和添加input的函数，尽量分离开逻辑
 }

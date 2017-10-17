@@ -23,7 +23,13 @@
      *      imgBlockMes:'请上传照片'     上传的封面文字信息, 默认为'请上传照片，并保证照片清晰可读'
      *   }
      */
-    imgObjHandle({});
+    new ImgObjHandle({
+        isCompress: false,
+        compressPercent: 0.1,
+        imgTypes: 'jpeg|jpg|png',
+        imgSize: 10,
+        imgBlockMes: '请上传照片'
+    });
 </script>
 </body>
 </html>

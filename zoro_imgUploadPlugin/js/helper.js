@@ -19,6 +19,27 @@ ImgObjHandle.prototype= {
         this.loadHTML();
         this.handleClick();
     },
+    //加载img的HTML
+    loadHTML: function(){
+        var imgHTML =
+            '<input type="file" id="idWhiteImg" class="active"/>' +
+            '<div class="imgMesBlock">' +
+            '<i class="iconPlus"></i>' +
+            '<p>'+ this.imgBlockMes +'</p>' +
+            '</div>' +
+            '<div class="imgBlockWrap">' +
+            '<img src="" data-name="idWhiteImg" class="quickSaveCatch">' +
+            '</div>' +
+            '<i class="imgExchange"></i>';
+
+        var fullScreenHTML =
+            '<div class="imgShowWrap">' +
+            '<img src="" class="showFullScreenImg" />' +
+            '</div>';
+
+        $(".idFiles").append(imgHTML);
+        $("body").append(fullScreenHTML);
+    },
     //绑定事件
     handleClick: function(){
         var _this = this;
@@ -59,27 +80,6 @@ ImgObjHandle.prototype= {
             this.toggleComponentValues("clear", $(".imgExchange"));
         }.bind(this));
     },
-    //加载img的HTML
-    loadHTML: function(){
-        var imgHTML =
-            '<input type="file" id="idWhiteImg" class="active"/>' +
-            '<div class="imgMesBlock">' +
-            '<i class="iconPlus"></i>' +
-            '<p>'+ this.imgBlockMes +'</p>' +
-            '</div>' +
-            '<div class="imgBlockWrap">' +
-            '<img src="" data-name="idWhiteImg" class="quickSaveCatch">' +
-            '</div>' +
-            '<i class="imgExchange"></i>';
-
-        var fullScreenHTML =
-            '<div class="imgShowWrap">' +
-            '<img src="" class="showFullScreenImg" />' +
-            '</div>';
-
-        $(".idFiles").append(imgHTML);
-        $("body").append(fullScreenHTML);
-    },
     /**
      * fileReader读取文件并转换为base64
      * @param file input表单读取的文件流
@@ -93,7 +93,7 @@ ImgObjHandle.prototype= {
         reader.readAsDataURL(file);
     },
     /**
-     * 根据图片和上传框的比较来处理图片
+     * 根据图片和上传框的比较来处理图片（回显图片时也是用的这个方法，后台传base64，进行判断！）
      * @param imgURL    img的base64
      * @param $this     input的dom对象
      */

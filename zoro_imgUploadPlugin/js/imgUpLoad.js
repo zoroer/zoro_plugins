@@ -1,4 +1,10 @@
 /**
+ * auth: zoro
+ * version: 1.1
+ * time: 17-11-6
+ */
+
+/**
  * 单图片上传处理插件
  * @param configObj 接受一个配置对象。
  */

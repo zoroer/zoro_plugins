@@ -14,22 +14,6 @@
 <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="js/imgUpLoad.js"></script>
 <script type="text/javascript">
-    /**
-     *   下边是上传照片函数参数configObj的配置例子, 不传任何参数按照默认设置。
-     *   {
-     *      isCompress: true,           是否需要压缩,默认true
-     *      compressPercent: 0.1,       压缩比例（0-1），默认0.2
-     *      imgTypes: 'jpeg|jpg|png',   支持上传的图片类型
-     *      imgSize: 10                 支持上传的图片的最大大小， 默认10M
-     *      imgBlockMes:'请上传照片'     上传的封面文字信息, 默认为'请上传照片，并保证照片清晰可读',
-     *      imgWrap: ''                 区别不同的上传组件，需要同时在html的zoroUploadBlock处添加class
-     *   }
-     *
-     *   warning!!!
-     *   组件不涉及提交的逻辑，最后提交时，需要自己获取$(".quickSaveCatch")的值 (base64格式的图片) ，进行提交!
-     *   多个组件的话$(".quickSaveCatch")获取到的是一个数据，需要自己处理!
-     */
-
     var obj2 = new ImgObjHandle({
         isCompress: true,
         compressPercent: 0.1,
@@ -46,7 +30,6 @@
         imgBlockMes: '请上传照片123',
         imgWrap: '.idFiles1'
     });
-
 </script>
 </body>
 </html>

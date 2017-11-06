@@ -9,7 +9,7 @@ function ImgObjHandle(configObj) {
     this.imgType = configObj.imgTypes || 'jpeg|jpg|png';
     this.imgSize = configObj.imgSize || 5;
     this.imgBlockMes = configObj.imgBlockMes || '请上传照片，并保证照片清晰可读';
-    this.imgWrap = $(".idFiles");
+    this.imgWrap = configObj.imgWrap ? $(".zoroUploadBlock" + configObj.imgWrap) : $(".zoroUploadBlock");
     this.init();
 }
 
@@ -23,24 +23,27 @@ ImgObjHandle.prototype = {
     loadHTML: function(){
         //拼接图片组件的html
         var imgHTML =
-            '<input type="file" id="idWhiteImg" class="active" />' +
+            '<input type="file" class="idWhiteImg active" />' +
             '<div class="imgMesBlock">' +
-                '<i class="iconPlus"></i>' +
-                '<p>'+ this.imgBlockMes +'</p>' +
+            '<i class="iconPlus"></i>' +
+            '<p>'+ this.imgBlockMes +'</p>' +
             '</div>' +
             '<div class="imgBlockWrap">' +
-                '<img src="" data-name="idWhiteImg" class="quickSaveCatch">' +
+            '<img src="" data-name="idWhiteImg" class="quickSaveCatch">' +
             '</div>' +
             '<i class="imgExchange"></i>';
 
         //全屏展示图片
         var fullScreenHTML =
             '<div class="imgShowWrap">' +
-                '<img src="" class="showFullScreenImg" />' +
+            '<img src="" class="showFullScreenImg" />' +
             '</div>';
 
-        this.imgWrap.append(imgHTML);
-        $("body").append(fullScreenHTML);
+        this.imgWrap.html(imgHTML);
+
+        //判断是否已经加载了弹出框
+        $(".imgShowWrap").length === 0 && $("body").append(fullScreenHTML);
+
     },
     //绑定事件
     handleClick: function(){
@@ -63,7 +66,7 @@ ImgObjHandle.prototype = {
             }
 
             //fileReader读取文件
-            _this.readFileToBase64(file);
+            _this.readFileToBase64($(this), file);
         });
 
         // 单击全屏显示图片
@@ -79,25 +82,27 @@ ImgObjHandle.prototype = {
 
         // 清除图片以及input组件的值
         $(".imgExchange").on("click", function() {
-            this.toggleComponentValues("clear");
-        }.bind(this));
+            _this.toggleComponentValues($(this), "clear");
+        });
     },
     /**
      * fileReader读取文件并转换为base64
+     * @param ele  当前的input元素
      * @param file input表单读取的文件流
      */
-    readFileToBase64: function (file) {
+    readFileToBase64: function (ele, file) {
         var reader = new FileReader();
         reader.onload = function(e) {
-            this.handleImg(e.target.result, $("#idWhiteImg"));
+            this.handleImg(e.target.result, ele);
         }.bind(this);
         reader.readAsDataURL(file);
     },
     /**
      * 根据图片和上传框的比较来处理图片（回显图片时也是用的这个方法，后台传base64，进行判断！）
      * @param imgURL    img的base64
+     * @param ele       当前的input元素
      */
-    handleImg: function(imgURL){
+    handleImg: function(imgURL, ele){
         var image = new Image();
         image.onload = function(){
             var base64URL = imgURL;
@@ -121,7 +126,7 @@ ImgObjHandle.prototype = {
             //判断图片和imgWrap的大小关系来确定图片的显示
             var imgClass = this.getImgSize(image);
 
-            this.toggleComponentValues("add", base64URL, imgClass);
+            this.toggleComponentValues(ele, "add", base64URL, imgClass);
         }.bind(this);
         image.src = imgURL;
     },
@@ -131,7 +136,7 @@ ImgObjHandle.prototype = {
      * @returns {string}
      */
     getImgSize: function(imgObj) {
-        var inputEle = $("#idWhiteImg");
+        var inputEle = $(".idWhiteImg");
         var inputHeight = inputEle.height(), inputWidth = inputEle.width();
         var imgHeight = imgObj.height, imgWidth = imgObj.width;
 
@@ -145,18 +150,20 @@ ImgObjHandle.prototype = {
     },
     /**
      * 切换组件的数据显示
+     * @param ele   this
      * @param type  "add" or "clear" 切换的类型
      * @param base64URl 增加时传入的base64URL  （add时需要传）
      * @param imgClass  增加时传入计算后的imgClass   （add时需要传）
      */
-    toggleComponentValues: function(type, base64URl, imgClass){
+    toggleComponentValues: function(ele, type, base64URl, imgClass){
+        console.log(ele);
         var imgStyle = imgClass || "imgActiveHeight";
         if(type === "add"){
-            $("#idWhiteImg").removeClass("active").next(".imgMesBlock").addClass("active")
-                .siblings("i").show().siblings(".imgBlockWrap").addClass("active")
+            ele.removeClass("active").next(".imgMesBlock").addClass("active").siblings("i").show()
+                .siblings(".imgBlockWrap").addClass("active")
                 .find("img").attr("src", base64URl).addClass(imgStyle);
         }else if(type === "clear"){
-            $(".imgExchange").hide().siblings("input").val("").addClass("active").siblings("div")
+            ele.hide().siblings("input").val("").addClass("active").siblings("div")
                 .removeClass("active").find("img").attr("src", "");
         }else{
             console.error("函数传参错误!");

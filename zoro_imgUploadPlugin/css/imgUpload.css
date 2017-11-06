@@ -27,7 +27,7 @@
 }
 
 /* imgWrap最外层div */
-.idFiles{
+.zoroUploadBlock{
     position: relative;
     width: 40%;
     max-width: 250px;
@@ -40,7 +40,7 @@
 }
 
 /* input 选择文件 */
-#idWhiteImg{
+.idWhiteImg{
     opacity: 0;
     position: absolute;
     top: 0;
@@ -49,9 +49,7 @@
     width: 100%;
     height:100%;
 }
-#idWhiteImg.active{
-    z-index: 999;
-}
+.idWhiteImg.active{ z-index: 999; }
 
 /* img 展示文字 */
 .imgMesBlock{

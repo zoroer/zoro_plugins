@@ -1,5 +1,6 @@
 # zoro_plugins
 ### This folder contains two plugins that I have done in my daily job so far, i'll update the folder in my spare time.
+### 避免重复的代码工作，总结了工作中用到的一些组件，使用时会随着工作的需求一直添加修改bug并且添加新的组件。
 
 ## plugins1: imgUploadPlugin
 imgUploadPlugin是一个简单的单图片压缩回显的组件。

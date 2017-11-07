@@ -29,16 +29,16 @@ imgUploadPlugin是一个简单的单图片压缩回显的组件。
 
 未选择图片的截图
 
-![未选择图片的截图](https://note.youdao.com/yws/api/personal/file/WEBa04e57b65761881dcf52be7d87e49d11?method=getImage&version=5962&cstk=qOuIFwxd)
+![未选择图片的截图](https://github.com/zoroer/zoro_plugins/blob/master/zoro_imgUploadPlugin/screenShots/img1.png)
 
 
 选择图片未压缩的截图
 
-![选择图片未压缩的截图](https://note.youdao.com/yws/api/personal/file/WEB5f8019cb649ecf99a251e6d0531b621d?method=getImage&version=5961&cstk=qOuIFwxd)
+![选择图片未压缩的截图](https://github.com/zoroer/zoro_plugins/blob/master/zoro_imgUploadPlugin/screenShots/img2.png)
 
 选择图片并且压缩之后的截图
 
-![选择图片并且压缩之后的截图](https://note.youdao.com/yws/api/personal/file/WEB112cd8b9ccf92b8989010a67426b27be?method=getImage&version=5960&cstk=qOuIFwxd)
+![选择图片并且压缩之后的截图](https://github.com/zoroer/zoro_plugins/blob/master/zoro_imgUploadPlugin/screenShots/img3.png)
 </center>
 
 ### 注意点:

@@ -23,6 +23,24 @@ imgUploadPlugin是一个简单的单图片压缩回显的组件。
     imgWrap: ''    
  }     
 ```        
+
+#### 组件使用截图
+<center>
+
+未选择图片的截图
+
+![未选择图片的截图](https://note.youdao.com/yws/api/personal/file/WEBa04e57b65761881dcf52be7d87e49d11?method=getImage&version=5962&cstk=qOuIFwxd)
+
+
+选择图片未压缩的截图
+
+![选择图片未压缩的截图](https://note.youdao.com/yws/api/personal/file/WEB5f8019cb649ecf99a251e6d0531b621d?method=getImage&version=5961&cstk=qOuIFwxd)
+
+选择图片并且压缩之后的截图
+
+![选择图片并且压缩之后的截图](https://note.youdao.com/yws/api/personal/file/WEB112cd8b9ccf92b8989010a67426b27be?method=getImage&version=5960&cstk=qOuIFwxd)
+</center>
+
 ### 注意点:
 1. 组件不涉及提交的逻辑，最后提交时，需要自己获取$(".quickSaveCatch")的值 (base64格式的图片) ，进行提交!
 2. 多个组件的话$(".quickSaveCatch")获取到的是一个数据，需要自己处理!

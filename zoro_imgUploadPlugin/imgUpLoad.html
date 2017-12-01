@@ -14,12 +14,21 @@
 <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="js/imgUpLoad.js"></script>
 <script type="text/javascript">
-    var obj = new ImgObjHandle({
+    var obj2 = new ImgObjHandle({
         isCompress: true,
         compressPercent: 0.1,
         imgTypes: 'jpeg|jpg|png',
         imgSize: 10,
         imgBlockMes: '请上传照片'
+    });
+
+    var obj1 = new ImgObjHandle({
+        isCompress: false,
+        compressPercent: 0.1,
+        imgTypes: 'jpeg|jpg|png',
+        imgSize: 10,
+        imgBlockMes: '请上传照片123',
+        imgWrap: '.idFiles1'
     });
 </script>
 </body>

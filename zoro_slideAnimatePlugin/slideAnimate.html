@@ -25,6 +25,16 @@
             align-items: center;
             justify-content: center;
         }
+        .grab {
+            cursor: -webkit-grab;
+            cursor: -moz-grab;
+            cursor: grab;
+        }
+        .grabbing {
+            cursor: -webkit-grabbing;
+            cursor: -moz-grabbing;
+            cursor: grabbing;
+        }
     </style>
 </head>
 <body>
@@ -76,11 +86,22 @@
             var animateSpeed = condition.animateSpeed || 2;
             var textMode = condition.textMode || false;
             var directionCssObj = {};
+            var dragPosStart = 0;
 
             //复制html节点
             var oUl = $(wrapName).find("ul");
             oUl.append(oUl.html());
             var oLi = oUl.find("li");
+
+            //移动事件
+            oUl.addEventListener("mousedown", function (e) {
+                e.preventDefault();
+                dragPosStart = e.pageX;
+            }, false);
+            oUl.addEventListener("mouseup", function (e) {
+                e.preventDefault();
+                oUl.style.left = (e.pageX - dragPosStart) + "px";
+            }, false);
 
             //判断动画的方向
             if( /left|right/.test(direction) ) {

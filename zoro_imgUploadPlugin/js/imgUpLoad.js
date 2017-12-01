@@ -35,14 +35,14 @@ ImgObjHandle.prototype = {
             '<p>'+ this.imgBlockMes +'</p>' +
             '</div>' +
             '<div class="imgBlockWrap">' +
-            '<img src="" data-name="idWhiteImg" class="quickSaveCatch">' +
+            '<img src="" data-name="idWhiteImg" class="quickSaveCatch cursor-zoom-in">' +
             '</div>' +
             '<i class="imgExchange"></i>';
 
         //全屏展示图片
         var fullScreenHTML =
             '<div class="imgShowWrap">' +
-            '<img src="" class="showFullScreenImg" />' +
+            '<img src="" class="showFullScreenImg cursor-zoom-out" />' +
             '</div>';
 
         this.imgWrap.html(imgHTML);
@@ -162,7 +162,6 @@ ImgObjHandle.prototype = {
      * @param imgClass  增加时传入计算后的imgClass   （add时需要传）
      */
     toggleComponentValues: function(ele, type, base64URl, imgClass){
-        console.log(ele);
         var imgStyle = imgClass || "imgActiveHeight";
         if(type === "add"){
             ele.removeClass("active").next(".imgMesBlock").addClass("active").siblings("i").show()

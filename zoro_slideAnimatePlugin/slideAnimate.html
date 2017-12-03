@@ -47,15 +47,6 @@
         <li><img src="./img/img4.jpg" /></li>
         <li><img src="./img/img5.jpg" /></li>
     </ul>
-
-    <!-- 文字演示的内容 -->
-    <!--<ul>-->
-        <!--<li><img src="./img/img1.jpg" /></li>-->
-        <!--<li><img src="./img/img2.jpg" /></li>-->
-        <!--<li><img src="./img/img3.jpg" /></li>-->
-        <!--<li><img src="./img/img4.jpg" /></li>-->
-        <!--<li><img src="./img/img5.jpg" /></li>-->
-    <!--</ul>-->
 </div>
 
 <script type="text/javascript" src="jquery-3.2.1.min.js"></script>
@@ -87,6 +78,9 @@
             var textMode = condition.textMode || false;
             var directionCssObj = {};
             var dragPosStart = 0;
+            var timer = null;
+
+            handleInterval("add");
 
             //复制html节点
             var oUl = $(wrapName).find("ul");
@@ -94,14 +88,21 @@
             var oLi = oUl.find("li");
 
             //移动事件
-            oUl.addEventListener("mousedown", function (e) {
-                e.preventDefault();
-                dragPosStart = e.pageX;
-            }, false);
-            oUl.addEventListener("mouseup", function (e) {
-                e.preventDefault();
-                oUl.style.left = (e.pageX - dragPosStart) + "px";
-            }, false);
+            oUl.on({
+                "mouseover": function(){ handleInterval("cancel") },
+                "mouseout": function(){ handleInterval("add") },
+                "mousedown": function (e) {
+                    e.preventDefault();
+                    $(this).addClass("grab");
+                    dragPosStart = e.pageX;
+                },
+                "mouseup": function (e) {
+                    e.preventDefault();
+                    $(this).removeClass("grab");
+                    var ulLeft = parseInt( $(this).css(directionCssObj.direction).replace(/[^0-9|-]/gi, "") );
+                    $(this).css(directionCssObj.direction, ulLeft + (e.pageX - dragPosStart) + "px");
+                }
+            });
 
             //判断动画的方向
             if( /left|right/.test(direction) ) {
@@ -155,8 +156,15 @@
                 }
             }
 
-            //定时更新
-            setInterval(handleAnimate, 20);
+            /**
+             * 定时器操作
+             * @param type  add or cancel
+             */
+            function handleInterval(type){
+                type === 'add'
+                    ? timer = setInterval(handleAnimate, 20)
+                    : clearInterval(timer);
+            }
         }
     });
 </script>

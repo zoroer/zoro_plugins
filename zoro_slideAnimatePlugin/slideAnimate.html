@@ -87,27 +87,12 @@
             oUl.append(oUl.html());
             var oLi = oUl.find("li");
 
-            //移动事件
-            oUl.on({
-                "mouseover": function(){ handleInterval("cancel") },
-                "mouseout": function(){ handleInterval("add") },
-                "mousedown": function (e) {
-                    e.preventDefault();
-                    $(this).addClass("grab");
-                    dragPosStart = e.pageX;
-                },
-                "mouseup": function (e) {
-                    e.preventDefault();
-                    $(this).removeClass("grab");
-                    var ulLeft = parseInt( $(this).css(directionCssObj.direction).replace(/[^0-9|-]/gi, "") );
-                    $(this).css(directionCssObj.direction, ulLeft + (e.pageX - dragPosStart) + "px");
-                }
-            });
-
             //判断动画的方向
             if( /left|right/.test(direction) ) {
-                directionCssObj.direction = 'left';
-                directionCssObj.directionProp = 'width';
+                directionCssObj = {
+                    direction: "left",
+                    directionProp: "width"
+                };
 
                 //处理css部分属性
                 $(".slideAnimate").find("li").css({"float": "left", "height": "100%"}).find("img").css("width", "100%");
@@ -116,8 +101,10 @@
                 oLi.css("width", oUl.width() / (oLi.length / 2) + "px");
                 oUl.css("width", oLi.width() * oLi.length + "px");
             }else{
-                directionCssObj.direction = 'top';
-                directionCssObj.directionProp = 'height';
+                directionCssObj = {
+                    direction: "top",
+                    directionProp: "height"
+                };
 
                 //判断是否是文字模式并处理对应的css部分属性
                 if(textMode){
@@ -147,7 +134,7 @@
                             : oUl.css(directionCssObj.direction, "+=" + animateSpeed + "px");
                     } else {
                         //小于0方向向上或者向左
-                        propNumber === oLi[directionCssObj.directionProp]() * (oLi.length / 2)
+                        propNumber >=  oLi[directionCssObj.directionProp]() * (oLi.length / 2)
                             ? oUl.css(directionCssObj.direction, "0px")
                             : oUl.css(directionCssObj.direction, "+=" + animateSpeed + "px");
                     }
@@ -155,6 +142,32 @@
                     console.warn("directionCssObj不能为空!");
                 }
             }
+
+            //移动事件
+            oUl.on({
+                "mouseover": function(){ handleInterval("cancel") },
+                "mouseout": function(){ handleInterval("add") },
+                "mousedown": function (e) {
+                    e.preventDefault();
+                    $(this).addClass("grab");
+                    dragPosStart = e.pageX;
+                },
+                "mouseup": function (e) {
+                    e.preventDefault();
+                    $(this).removeClass("grab");
+                    var ulLeft = parseInt( $(this).css(directionCssObj.direction).replace(/[^0-9|-]/gi, "") );
+                    var propLength = oLi[directionCssObj.directionProp]() * (oLi.length / 2);
+                    var computedLeft = ulLeft + (e.pageX - dragPosStart);
+
+                    if( computedLeft > 0 ) {
+                        $(this).css(directionCssObj.direction, "0px");
+                    }else if( Math.abs(computedLeft) > propLength ) {
+                        $(this).css(directionCssObj.direction, -propLength + "px");
+                    }else {
+                        $(this).css(directionCssObj.direction, ulLeft + (e.pageX - dragPosStart) + "px");
+                    }
+                }
+            });
 
             /**
              * 定时器操作

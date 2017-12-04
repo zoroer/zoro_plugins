@@ -111,29 +111,36 @@ SlideAnimate.prototype = {
      * @param type  add or cancel
      */
     handleInterval: function(type) {
-        var _this = this;
         if( type === 'add' ){
-            this.timer = setInterval(function () {
-                if (_this.directionCssObj) {
-                    var propNumber = parseInt(_this.oUl.css(_this.directionCssObj.direction).replace(/[^0-9]/gi, ""));
-
-                    if (_this.animateSpeed > 0) {
-                        //大于0方向向下或者向右
-                        propNumber === 0
-                            ? _this.oUl.css(_this.directionCssObj.direction, -_this.oUl[_this.directionCssObj.directionProp]() / 2 + "px")
-                            : _this.oUl.css(_this.directionCssObj.direction, "+=" + _this.animateSpeed + "px");
-                    } else {
-                        //小于0方向向上或者向左
-                        propNumber >= _this.oLi[_this.directionCssObj.directionProp]() * (_this.oLi.length / 2)
-                            ? _this.oUl.css(_this.directionCssObj.direction, "0px")
-                            : _this.oUl.css(_this.directionCssObj.direction, "+=" + _this.animateSpeed + "px");
-                    }
-                } else {
-                    console.warn("directionCssObj不能为空!");
-                }
-            } , 20)
+            this.timer = setInterval(this.handleAnimate(this), 20)
         }else{
             clearInterval(this.timer);
         }
     },
+    /**
+     * 处理动画操作
+     * @param _this
+     * @returns {Function}
+     */
+    handleAnimate: function (_this) {
+        return function () {
+            if (_this.directionCssObj) {
+                var propNumber = parseInt(_this.oUl.css(_this.directionCssObj.direction).replace(/[^0-9]/gi, ""));
+
+                if (_this.animateSpeed > 0) {
+                    //大于0方向向下或者向右
+                    propNumber === 0
+                        ? _this.oUl.css(_this.directionCssObj.direction, -_this.oUl[_this.directionCssObj.directionProp]() / 2 + "px")
+                        : _this.oUl.css(_this.directionCssObj.direction, "+=" + _this.animateSpeed + "px");
+                } else {
+                    //小于0方向向上或者向左
+                    propNumber >= _this.oLi[_this.directionCssObj.directionProp]() * (_this.oLi.length / 2)
+                        ? _this.oUl.css(_this.directionCssObj.direction, "0px")
+                        : _this.oUl.css(_this.directionCssObj.direction, "+=" + _this.animateSpeed + "px");
+                }
+            } else {
+                console.warn("directionCssObj不能为空!");
+            }
+        }
+    }
 };

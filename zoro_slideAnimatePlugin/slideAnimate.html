@@ -30,11 +30,6 @@
             cursor: -moz-grab;
             cursor: grab;
         }
-        .grabbing {
-            cursor: -webkit-grabbing;
-            cursor: -moz-grabbing;
-            cursor: grabbing;
-        }
     </style>
 </head>
 <body>
@@ -57,8 +52,8 @@
          */
         slideAnimate({
             wrapName: '.slideAnimate',
-            animateDirection: "left",
-            animateSpeed: -2,  //speed 大于0向右或下滑动，小于0向左或上滑动 (需要同时设置方向和速度参数!!!)
+            animateDirection: "right",
+            animateSpeed: 2,  //speed 大于0向右或下滑动，小于0向左或上滑动 (需要同时设置方向和速度参数!!!)
             textMode: false,
             textModeStyle: {
                 fontSize: '20px',
@@ -150,21 +145,27 @@
                 "mousedown": function (e) {
                     e.preventDefault();
                     $(this).addClass("grab");
-                    dragPosStart = e.pageX;
+
+                    var propName = "pageX";
+                    /top|bottom/.test(direction) ? propName = "pageY" : propName;
+                    dragPosStart = e[propName];
                 },
                 "mouseup": function (e) {
                     e.preventDefault();
                     $(this).removeClass("grab");
-                    var ulLeft = parseInt( $(this).css(directionCssObj.direction).replace(/[^0-9|-]/gi, "") );
-                    var propLength = oLi[directionCssObj.directionProp]() * (oLi.length / 2);
-                    var computedLeft = ulLeft + (e.pageX - dragPosStart);
 
-                    if( computedLeft > 0 ) {
+                    var propName = "pageX";
+                    /top|bottom/.test(direction) ? propName = "pageY" : propName;
+                    var ulPropNumber = parseInt( $(this).css(directionCssObj.direction).replace(/[^0-9|-]/gi, "") );
+                    var propHalfLength = oLi[directionCssObj.directionProp]() * (oLi.length / 2);
+                    var ulComputedNumber = ulPropNumber + (e[propName] - dragPosStart);
+
+                    if( ulComputedNumber > 0 ) {
                         $(this).css(directionCssObj.direction, "0px");
-                    }else if( Math.abs(computedLeft) > propLength ) {
-                        $(this).css(directionCssObj.direction, -propLength + "px");
+                    }else if( Math.abs(ulComputedNumber) > propHalfLength ) {
+                        $(this).css(directionCssObj.direction, -propHalfLength + "px");
                     }else {
-                        $(this).css(directionCssObj.direction, ulLeft + (e.pageX - dragPosStart) + "px");
+                        $(this).css(directionCssObj.direction, ulComputedNumber + "px");
                     }
                 }
             });

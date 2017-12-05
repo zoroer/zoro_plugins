@@ -46,5 +46,38 @@ imgUploadPlugin是一个简单的单图片压缩回显的组件。
 2. 多个组件的话$(".quickSaveCatch")获取到的是一个数据，需要自己处理!
          
 ### plugins2: sliderAnimatePlugin
+slideAnimatePlugin是一个无缝滚动的组件。
 
+#### 组件的特点：
+1. 支持 left|top|right|bottom 四个方向的滚动
+2. 组件提供了图片模式和文字模式，只需要在参数中提供相应的资源即可完成切换。
 
+#### 下边是组件的所有参数, 不传任何参数按照默认设置。 
+1. animateDirection:       组件滚动的方向，默认为"left"
+2. animateSpeed:           滚动的速度，默认2px/s
+3. resourcesArr:           需要滚动展示的资源数组，图片模式下需要上传一组图片，文字模式下请提供滚动的文字
+4. textMode:               是否开启文字模式， 组件默认是图片模式
+5. textModeStyle:          文字模式下上传文字的样式
+
+#### 一个configObj的配置例子：
+```
+ configObj = {
+    animateDirection: "left",
+    animateSpeed: 2,
+    resourcesArr: [
+        "./img/img1.jpg",
+        "./img/img2.jpg",
+        "./img/img3.jpg",
+        "./img/img4.jpg",
+        "./img/img5.jpg"
+    ],
+    textMode: false
+ }     
+```  
+
+#### 组件使用截图
+<center>
+
+未选择图片的截图
+![未选择图片的截图](https://github.com/zoroer/zoro_plugins/blob/master/zoro_slideAnimatePlugin/screenShots/slideImg.png)
+</center>

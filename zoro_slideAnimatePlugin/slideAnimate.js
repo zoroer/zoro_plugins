@@ -12,7 +12,7 @@
 function SlideAnimate(condition) {
     this.direction = /left|right|top|bottom/.test(condition.animateDirection) ? condition.animateDirection : 'left';
     this.animateSpeed = condition.animateSpeed || 2;
-    this.resourcesArr = condition.resourcesArr;
+    this.resourcesArr = condition.resourcesArr || ["默认一", "默认二", "默认三", "默认四"];
     this.textMode = condition.textMode || false;
     this.textModeStyle = condition.textModeStyle;
     this.init();

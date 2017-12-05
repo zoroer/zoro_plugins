@@ -78,6 +78,6 @@ slideAnimatePlugin是一个无缝滚动的组件。
 #### 组件使用截图
 <center>
 
-未选择图片的截图
-![未选择图片的截图](https://github.com/zoroer/zoro_plugins/blob/master/zoro_slideAnimatePlugin/screenShots/slideImg.png)
+滚动的截图
+![未选择图片的截图](https://github.com/zoroer/zoro_plugins/blob/master/zoro_slideAnimatePlugin/screenShoots/slideImg.png)
 </center>

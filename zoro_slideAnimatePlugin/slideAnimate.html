@@ -3,61 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>slideAnimate</title>
-    <style type="text/css">
-        *, body{  margin: 0;  padding: 0; }
-        ul li{list-style-type: none;}
-        .slideAnimate{
-            height: 400px;   /*根据自己的需要进行修改样式*/
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 5px #eee;
-        }
-        .slideAnimate ul{
-            height: 100%;
-            width: 100%;
-            position: absolute;
-            overflow: hidden;
-            left:0;
-            top:0;
-        }
-        .slideAnimate ul li{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .grab {
-            cursor: -webkit-grab;
-            cursor: -moz-grab;
-            cursor: grab;
-        }
-    </style>
+    <link rel="stylesheet" href="slideAnimate.css">
 </head>
 <body>
 
-<div class="slideAnimate">
-    <ul>
-        <!--<li><img src="./img/img1.jpg" /></li>-->
-        <!--<li><img src="./img/img2.jpg" /></li>-->
-        <!--<li><img src="./img/img3.jpg" /></li>-->
-        <!--<li><img src="./img/img4.jpg" /></li>-->
-        <!--<li><img src="./img/img5.jpg" /></li>-->
-
-        <li><p>test1</p></li>
-        <li><p>test2</p></li>
-        <li><p>test3</p></li>
-        <li><p>test4</p></li>
-        <li><p>test5</p></li>
-    </ul>
-</div>
+<div id="slideAnimate"></div>
 
 <script type="text/javascript" src="jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="slideAnimate.js"></script>
 <script type="text/javascript">
     new SlideAnimate({
-        wrapName: '.slideAnimate',
         animateDirection: "left",
-        animateSpeed: -2,  //speed 大于0向右或下滑动，小于0向左或上滑动 (需要同时设置方向和速度参数!!!)
-        textMode: true,
+        animateSpeed: 2,
+        resourcesArr: [
+            "./img/img1.jpg",
+            "./img/img2.jpg",
+            "./img/img3.jpg",
+            "./img/img4.jpg",
+            "./img/img5.jpg"
+        ],
+        textMode: false,
         textModeStyle: {
             fontSize: '20px',
             color: "#f00"

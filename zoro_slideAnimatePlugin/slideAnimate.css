@@ -1,0 +1,29 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+ul li{list-style-type: none;}
+#slideAnimate{
+    height: 400px;   /*根据自己的需要进行修改样式*/
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 5px #eee;
+}
+#slideAnimate ul{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    overflow: hidden;
+    left:0;
+    top:0;
+}
+#slideAnimate ul li{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.grab {
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
+    cursor: grab;
+}

@@ -11,11 +11,10 @@
  */
 function SlideAnimate(condition) {
     this.wrapName = condition.wrapName || '.slideAnimate';
-    this.direction = /left|right|top|bottom/.test(condition.animateDirection)
-        ? condition.animateDirection
-        : 'left';
-    this.animateSpeed = condition.animateSpeed || 2;
+    this.direction = /left|right|top|bottom/.test(condition.animateDirection) ? condition.animateDirection : 'left';
+    this.animateSpeed = condition.animateSpeed || -2;
     this.textMode = condition.textMode || false;
+    this.textModeStyle = condition.textModeStyle;
     this.directionCssObj = {};
     this.dragPosStart = 0;
     this.timer = null;
@@ -41,32 +40,21 @@ SlideAnimate.prototype = {
                 direction: "left",
                 directionProp: "width"
             };
-
-            //处理css部分属性
             $(this.wrapName).find("li").css({"float": "left", "height": "100%"}).find("img").css("width", "100%");
-
-            //重新计算li以及wrap的长度
-            this.oLi.css("width", this.oUl.width() / (this.oLi.length / 2) + "px");
-            this.oUl.css("width", this.oLi.width() * this.oLi.length + "px");
         } else {
             this.directionCssObj = {
                 direction: "top",
                 directionProp: "height"
             };
-
-            //判断是否是文字模式并处理对应的css部分属性
-            if (this.textMode) {
-                //赋值传入的文字css
-                this.oLi.css(this.textModeStyle);
-
-            } else {
-                $(this.wrapName).find("img").css("height", "100%");
-                this.oLi.css("height", this.oUl.height() + "px");
-            }
-
-            //重新计算wrap的高度
-            this.oUl.css("height", this.oLi.height() * this.oLi.length + "px");
+            $(this.wrapName).find("li").css("height", this.oUl.height() + "px").find("img").css("height", "100%");
         }
+
+        //文字模式下，渲染自定义文字的样式
+        this.textMode && this.oLi.css(this.textModeStyle);
+
+        //重新计算li以及wrap的长度
+        this.oLi.css(this.directionCssObj.directionProp, this.oUl[this.directionCssObj.directionProp]() / (this.oLi.length / 2) + "px");
+        this.oUl.css(this.directionCssObj.directionProp, this.oLi[this.directionCssObj.directionProp]() * this.oLi.length + "px");
     },
     handleMouseEvent: function(){
         var _this = this;
